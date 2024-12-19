@@ -1,0 +1,51 @@
+---
+color: gray
+background:
+  # image: /images/bg.png # https://i.imgur.com/5DJSIvq.png
+  blur: sm
+  opacity: 65
+
+title: xCORE | Dashboard
+favicon: https://github.com/walkxcode/dashboard-icons/blob/main/png/heimdall.png
+iconStyle: theme
+headerStyle: clean
+hideVersion: true
+target: _blank
+showStats: false
+statusStyle: "dot"
+
+layout:
+  Infrastructure:
+    style: column
+    columns: 3
+    icon: mdi-server
+  Calendar:
+    style: column
+    icon: mdi-calendar
+  Media:
+    style: column
+    columns: 3
+    icon: mdi-play-circle
+  DevTools:
+    style: column
+    columns: 3
+    icon: mdi-apps
+  Network:
+    style: column
+    columns: 3
+    icon: mdi-network
+  Home:
+    style: column
+    icon: mdi-home-analytics
+  Storage:
+    style: column
+    columns: 3
+    icon: mdi-nas
+  Observability:
+    style: column
+    columns: 4
+    icon: mdi-chart-line
+  Downloads:
+    style: row
+    columns: 4
+    icon: mdi-download-circle

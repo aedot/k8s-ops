@@ -1,0 +1,6 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "username": "labassistant[bot]",
+  "gitAuthor": "labassistant<labassistant[bot]@users.noreply.github.com>",
+  "repositories": ["aedot/k8s-ops"]
+}
