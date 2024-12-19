@@ -22,7 +22,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-
   values:
     crds:
       enabled: false
@@ -34,24 +33,20 @@ spec:
     kubeApiServer:
       enabled: true
       serviceMonitor:
-        selector:
-          k8s-app: kube-apiserver
+        metricRelabelings:
+          # Drop high cardinality labels
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
+          - action: drop
+            sourceLabels: ["__name__"]
+            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
 
-    kubeControllerManager: &kubeControllerManager
-    service:
-      selector:
-        k8s-app: kube-controller-manager
-
-    kubeEtcd:
-      <<: *kubeControllerManager # etcd runs on control plane nodes
-
-    kubeProxy:
+    kubeControllerManager:
       enabled: false
 
-    kubeScheduler:
-      service:
-        selector:
-          k8s-app: kube-scheduler
+    kubeEtcd:
+      enabled: false
 
     kubelet:
       enabled: true
@@ -65,6 +60,12 @@ spec:
           - action: drop
             sourceLabels: ["__name__"]
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+
+    kubeProxy:
+      enabled: false
+
+    kubeScheduler:
+      enabled: false
 
     kubeStateMetrics:
       enabled: false
@@ -98,14 +99,6 @@ spec:
         pathType: Prefix
 
       prometheusSpec:
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
-        scrapeConfigSelectorNilUsesHelmValues: false
-        walCompression: true
-        externalUrl: https://prometheus.ktwo.io
-
         alertingEndpoints:
           - namespace: observability
             name: alertmanager
@@ -139,37 +132,4 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
-
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
-      prometheus: &prometheus
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels:
-                - __meta_kubernetes_pod_node_name
-              targetLabel: kubernetes_node
-
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      metricLabelsAllowlist:
-        - pods=[*]
-        - deployments=[*]
-        - persistentvolumeclaims=[*]
-      prometheus:
-        <<: *prometheus
-
-    additionalPrometheusRulesMap:
-      dockerhub-rules:
-        groups:
-          - name: dockerhub
-            rules:
-              - alert: DockerhubRateLimitRisk
-                annotations:
-                  summary: Kubernetes cluster Dockerhub rate limit risk
-                expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
-                labels:
-                  severity: critical
+        walCompression: true
