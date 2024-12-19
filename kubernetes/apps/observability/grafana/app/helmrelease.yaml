@@ -183,8 +183,8 @@ spec:
           revision: 3
           datasource: Prometheus
         dragonfly:
-          url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dashboard.json
-          datasource: Redis
+          url: https://raw.githubusercontent.com/dragonflydb/dragonfly/refs/heads/main/tools/local/monitoring/grafana/provisioning/dashboards/dragonfly.json
+          datasource: prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -216,6 +216,12 @@ spec:
           gnetId: 19105
           revision: 6
           datasource: Prometheus
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
+          revision: 1
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
 
       emqx:
         emqx-authentication:
