@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   name: postgres17
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2-15
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2-20
   instances: 3
   primaryUpdateStrategy: unsupervised
   storage:
