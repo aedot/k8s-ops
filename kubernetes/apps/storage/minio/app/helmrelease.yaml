@@ -32,7 +32,7 @@ spec:
       tag: RELEASE.2024-11-07T00-52-20Z
     mcImage:
       repository: quay.io/minio/mc
-      tag: RELEASE.2024-11-17T19-35-25Z
+      tag: RELEASE.2024-11-21T17-21-54Z
     mode: standalone
 
     existingSecret: minio-secret
