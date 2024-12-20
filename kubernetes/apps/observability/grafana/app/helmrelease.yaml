@@ -110,7 +110,7 @@ spec:
             version: 1
             editable: true
           - name: Redis
-            type: prometheus
+            type: redis-datasource
             access: proxy
             url: redis://dragonfly.dbms.svc.cluster.local:6379
             jsonData:
@@ -182,9 +182,16 @@ spec:
           gnetId: 20842
           revision: 3
           datasource: Prometheus
-        dragonfly:
-          url: https://raw.githubusercontent.com/dragonflydb/dragonfly/refs/heads/main/tools/local/monitoring/grafana/provisioning/dashboards/dragonfly.json
+        # dragonfly:
+        #   url: https://raw.githubusercontent.com/dragonflydb/dragonfly/refs/heads/main/tools/local/monitoring/grafana/provisioning/dashboards/dragonfly.json
+        #   datasource: prometheus
+
+        redis-sentinel:
+          # renovate: dashboardName="Redis"
+          gnetId: 12776
+          revision: 2
           datasource: Redis
+
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -192,36 +199,52 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
+
         external-dns:
           # renovate: depName="External-dns"
           gnetId: 15038
           revision: 3
           datasource: Prometheus
+
         minio:
           # renovate: depName="MinIO Dashboard"
           gnetId: 13502
           revision: 26
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 37
           datasource: Prometheus
+
         node-feature-discovery:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
           datasource: Prometheus
+
         prometheus:
           # renovate: depName="Prometheus"
           gnetId: 19105
           revision: 6
           datasource: Prometheus
+
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+
+        hubble-dashboard:
+          url: https://raw.githubusercontent.com/cilium/cilium/v1.13.2/examples/kubernetes/addons/prometheus/files/grafana-dashboards/hubble-dashboard.json
+          datasource: Prometheus
+
+        loki-metrics:
+          # renovate: dashboardName="Loki2.0 Global Metrics"
+          gnetId: 13407
+          revision: 1
+          datasource: Prometheus
 
       emqx:
         emqx-authentication:
@@ -378,6 +401,7 @@ spec:
       - grafana-strava-datasource
       - grafana-github-datasource
       - isovalent-hubble-datasource
+      - redis-datasource
     serviceMonitor:
       enabled: true
     ingress:

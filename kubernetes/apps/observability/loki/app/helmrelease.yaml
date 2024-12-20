@@ -6,6 +6,7 @@ metadata:
   name: loki
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: loki
@@ -14,27 +15,14 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-  install:
-    crds: Skip
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    crds: Skip
-    remediation:
-      strategy: rollback
-      retries: 3
-  dependsOn:
-    - name: longhorn
-      namespace: storage
+      interval: 30m
   values:
     deploymentMode: SingleBinary
+
     loki:
-      auth_enabled: false
       analytics:
         reporting_enabled: false
-      server:
-        log_level: info
+      auth_enabled: false
       commonConfig:
         replication_factor: 1
       compactor:
@@ -43,43 +31,45 @@ spec:
         retention_enabled: true
       ingester:
         chunk_encoding: snappy
-      storage:
-        type: filesystem
+      limits_config:
+        retention_period: 14d
       schemaConfig:
         configs:
-          - from: "2024-04-01" # quote
+          - from: "2024-04-01"
             store: tsdb
             object_store: filesystem
             schema: v13
             index:
               prefix: loki_index_
               period: 24h
-      limits_config:
-        retention_period: 14d
-    singleBinary:
-      replicas: 1
-      persistence:
-        enabled: true
-        storageClass: longhorn
-        size: 50Gi
-    gateway:
-      replicas: 0
-    backend:
-      replicas: 0
-    read:
-      replicas: 0
-    write:
+      server:
+        log_level: info
+      storage:
+        type: filesystem
+      backend:
       replicas: 0
     chunksCache:
       enabled: false
-    resultsCache:
-      enabled: false
+    gateway:
+      replicas: 0
     lokiCanary:
       enabled: false
-    test:
+    read:
+      replicas: 0
+    resultsCache:
       enabled: false
     sidecar:
       image:
         repository: ghcr.io/kiwigrid/k8s-sidecar
       rules:
         searchNamespace: ALL
+    singleBinary:
+      replicas: 1
+      persistence:
+        enabled: true
+        storageClass: longhorn
+        size: 50Gi
+    test:
+      enabled: false
+    write:
+      replicas: 0
