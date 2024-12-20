@@ -46,7 +46,8 @@ spec:
         log_level: info
       storage:
         type: filesystem
-      backend:
+
+    backend:
       replicas: 0
     chunksCache:
       enabled: false
