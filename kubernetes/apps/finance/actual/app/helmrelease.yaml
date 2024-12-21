@@ -27,17 +27,6 @@ spec:
   values:
     controllers:
       actual:
-        type: statefulset
-        annotations:
-          reloader.stakater.com/auto: "true"
-
-        statefulset:
-          volumeClaimTemplates:
-            - name: *app
-              accessMode: ReadWriteOnce
-              size: 5Gi
-              storageClass: longhorn
-
         containers:
           app:
             image:
