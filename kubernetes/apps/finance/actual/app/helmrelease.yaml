@@ -37,8 +37,6 @@ spec:
               accessMode: ReadWriteOnce
               size: 5Gi
               storageClass: longhorn
-              globalMounts:
-                - path: /data
 
         containers:
           app:
