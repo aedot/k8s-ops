@@ -1,16 +1,24 @@
+---
+global:
+  slack_api_url_file: '/etc/secrets/slack_url'
 receivers:
   - name: "null"
+  - name: "slack"
 
 route:
   group_by: ["alertname", "job"]
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 6h
-  receiver: "null"
+  receiver: "slack"
   routes:
     - receiver: "null"
       matchers:
         - alertname =~ "InfoInhibitor|Watchdog"
+    - receiver: "slack"
+      matchers:
+        - severity = critical
+      continue: true
 
 inhibit_rules:
   - source_matchers:
