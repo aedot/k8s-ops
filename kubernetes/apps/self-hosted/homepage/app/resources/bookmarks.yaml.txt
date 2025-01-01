@@ -1,18 +1,10 @@
-
-- Media:
-    - YouTube:
-        - icon: youtube.png
-          href: 'https://youtube.com/feed/subscriptions'
-    - Spotify:
-        - icon: spotify.png
-          href: 'http://open.spotify.com'
 - Git:
     - kubesearch:
         - icon: kubernetes-dashboard.png
           href: 'https://kubesearch.dev/'
     - home-cluster:
         - icon: github.png
-          href: 'https://github.com/aedot/home-ops'
+          href: 'https://github.com/aedot/k8s-ops'
 - Social-Media:
     - Reddit:
       - icon: reddit.png
