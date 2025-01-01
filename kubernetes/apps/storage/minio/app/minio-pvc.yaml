@@ -10,8 +10,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: ${MEDIA_SERVER}
-    path: "/mnt/user/minio"
+    server: ${NFS_SERVER}
+    path: "/volume1/minio"
   mountOptions:
     - nfsvers=4.1
     - tcp
