@@ -12,7 +12,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${MEDIA_SERVER}
-    path: "/mnt/user/minio"
+    path: ":/mnt/user/minio"
   mountOptions:
     - nfsvers=4.1
     - tcp
