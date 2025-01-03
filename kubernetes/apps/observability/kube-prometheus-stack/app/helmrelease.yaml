@@ -10,7 +10,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      version: 67.6.0
+      version: 67.7.0
   interval: 1h0m0s
   install:
     crds: Skip
